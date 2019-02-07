@@ -15,6 +15,7 @@ gem 'puma', '~> 3.11'
 # gem 'redis', '~> 4.0'
 gem 'devise'
 gem 'devise-jwt'
+gem 'dotenv-rails', groups: [:development, :test]
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
