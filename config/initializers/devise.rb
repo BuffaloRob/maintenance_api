@@ -8,7 +8,23 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = '26bcbc410525d4ae35efa2fa0aafde5d1e8782e20addaaa2f8b291fe6978381bf13e8dfecc73c6a56a2986a09084d43ea6d9554438c01345fb9a3004602490cd'
+  # config.secret_key = '6be2c5a6bf434863b820c2de9fa08582d0cf2b492d8781a9ac42c08cbbc52dae79e43d5b9809e976d87bd6d1c50e7921f2fa68c489df210201f1d7a67d83135f'
+
+  config.jwt do |jwt|
+    jwt.secret = ENV['DEVISE_JWT_SECRET_KEY']
+    jwt.dispatch_requests = [
+      # ['POST', %r{^/users$}],
+      ['POST', %r{^/users/sign_in$}],
+      ['GET', %r{^/$}]
+    ]
+    jwt.revocation_requests = [
+      ['DELETE', %r{^/users/sign_out$}]
+    ]
+    jwt.request_formats = { user: [:json] }
+    jwt.expiration_time = 8.hours.to_i 
+  end 
+
+  config.navigational_formats = []
   
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
@@ -114,7 +130,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 11
 
   # Set up a pepper to generate the hashed password.
-  # config.pepper = '52e06e04bbad1a9d3173b5df11962b20ce3aaaf8e3db8d1d2468da664f54747d2f58423cd6c2288f7ac6431f6c35a9adfee7c265fec71116866c876179aaac9b'
+  # config.pepper = 'bc61a12bff4924ce68a8d219b19bc7a24e8508f15ffe52271b20ad5e0b3f944215129d9c0b84c113a28e8113866ff792f01b8c78d6decf5507f9d97299d75a89'
 
   # Send a notification to the original email when the user's email is changed.
   # config.send_email_changed_notification = false
